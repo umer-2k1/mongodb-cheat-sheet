@@ -117,3 +117,16 @@ in Between 25 to 50 in MongoDB
 )
 
 
+
+# Aggregation (pipeline operations)
+
+ Group values from multiple documents together. · Perform operations on the grouped data to return a single result.
+
+Aggregation process has several steps that transform data in some way. The output of first step is act as input for next step, the same process goes on until the final result produced
+## Databases
+
+- Show all databases:
+  ```shell
+  show dbs
+  ```
+
