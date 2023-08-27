@@ -214,3 +214,43 @@ db.t_info.aggregate([
   {$sort: {_id: 1}}
 ])
 ```
+
+## Example: No of teachers per each hobbies
+
+```shell
+db.t_info.aggregate([
+  {$unwind: "$hobbies"},
+  {$group: {_id: "$hobbies", count: {$sum: 1}}}
+])
+```
+
+## Example: Avg age of teachers in a single document
+
+```shell
+db.t_info.aggregate([
+    {$unwind: "$hobbies"},
+  {$group: {_id: null, averageAge: {$avg: "$age"}}}
+])
+```
+
+\_id: null in $group operator means all the document will be grouped together in a single collection
+
+## Example: Find total number of hobbies for all teachers in a single document
+
+```shell
+db.t_info.aggregate([
+  { $unwind: "$hobbies" },
+  {
+    $group: {
+      _id: null,
+      uniqueHobbies: { $addToSet: "$hobbies" }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      count: { $size: "$uniqueHobbies" }
+      }
+  }
+])
+```
