@@ -1,4 +1,4 @@
-To show all Database 
+To show all Database
 --> show dbs
 
 create a new or to swicth Database
@@ -10,8 +10,8 @@ View current databse
 Delete current databse
 --> db.dropDatabase() (if deleted returns Ok)
 
-***** Commands for Collections *****
-View all Collections  of databse
+**\*** Commands for Collections **\***
+View all Collections of databse
 --> show collections
 
 Create new Collection named as "mycol"
@@ -20,34 +20,34 @@ Create new Collection named as "mycol"
 Delete Collection named as "mycol"
 --> db.mycol.drop()
 
-*** Commands for Rows ***
+**_ Commands for Rows _**
 Inserting rows in a collection named as "mycol"
 --> db.mycol.insert({
-    "name": "umer",
-    "lang": "JS",
-    "role": "Web Dev",
+"name": "umer",
+"lang": "JS",
+"role": "Web Dev",
 })
 
 Inserting Many rows in a collection named as "mycol"
 --> db.mycol.insertMany([
-    {
-    "name": "umer",
-    "lang": "JS",
-    "role": "Web Dev",
-    "age": 44,
-    },
-    {
-    "name": "Abbas1",
-    "lang": "Python",
-    "role": "Data Scientist",
-    "age": 20,
-    },
-    {
-    "name": "Abdullah1",
-    "lang": "PHP, Python",
-    "role": "WordPress Dev",
-    "age": 32,
-    },
+{
+"name": "umer",
+"lang": "JS",
+"role": "Web Dev",
+"age": 44,
+},
+{
+"name": "Abbas1",
+"lang": "Python",
+"role": "Data Scientist",
+"age": 20,
+},
+{
+"name": "Abdullah1",
+"lang": "PHP, Python",
+"role": "WordPress Dev",
+"age": 32,
+},
 ])
 
 View all the rows in a collection named as "mycol"
@@ -73,11 +73,11 @@ count the match rows of a collection named as "mycol"
 
 Update a row in a collection by Id named as "mycol"
 --> db.mycol.update({age: 24}, {
-    $set:
-    {"name": "Umer Memon",
-    "lang": "Python",
-    "role": "Web Dev",
-    "age": 45,
+$set:
+{"name": "Umer Memon",
+"lang": "Python",
+"role": "Web Dev",
+"age": 45,
 }})
 
 Delete a row in a collection named as "mycol"
@@ -91,121 +91,126 @@ Delete the field in MongoDB
 
 Increment Operator in MongoDB
 --> db.mycol.update({age: 45}, {
-    $inc:
-    {"age": 10}
+$inc:
+{"age": 10}
 })
 
 Rename Operator in MongoDB
 --> db.mycol.updateMany({}, {
-    $rename:
-    {"age": "agee"}
+$rename:
+{"age": "agee"}
 })
 
 less than or equal to Operator in MongoDB
 --> db.mycol.find(
-    {agee: {$lte: 20}}
+{agee: {$lte: 20}}
 )
 
 greater than or equal to Operator in MongoDB
 --> db.mycol.find(
-    {agee: {$gte: 25}}
+{agee: {$gte: 25}}
 )
 
 in Between 25 to 50 in MongoDB
 --> db.mycol.find(
-    {agee: {$gte: 25, $lte: 50}}
+{agee: {$gte: 25, $lte: 50}}
 )
-
-
 
 # Aggregation (pipeline operations)
 
- Group values from multiple documents together. · Perform operations on the grouped data to return a single result.
+Group values from multiple documents together. · Perform operations on the grouped data to return a single result.
 
 Aggregation process has several steps that transform data in some way. The output of first step is act as input for next step, the same process goes on until the final result produced
 
 syntax:
 db.collection.aggregate(pipeline as [], options)
+
 ## Databases
 
 Example: Finds the teachers whose gender is male
-  ```shell
-  db.t_info.aggregate([
-    {$match: {gender: "Male"}}
-  ])
-  ```
+
+```shell
+db.t_info.aggregate([
+  {$match: {gender: "Male"}}
+])
+```
 
 Example: Group teachers by age
-  ```shell
-  db.t_info.aggregate([
-    {$group: {_id: "$age"}}
-  ])
-  ```
+
+```shell
+db.t_info.aggregate([
+  {$group: {_id: "$age"}}
+])
+```
 
 Example: Group teachers by age and show all teachers name per age group
-  ```shell
-  db.t_info.aggregate([
-    {$group: {_id: "$age", names: {$push: "$name"} }}
-  ])
-  ```
-  since the names field use $push operator to add name field from each document to an array
 
+```shell
+db.t_info.aggregate([
+  {$group: {_id: "$age", names: {$push: "$name"} }}
+])
+```
+
+since the names field use $push operator to add name field from each document to an array
 
 Example: Group teachers by age and show all teachers documents per age group
-  ```shell
-  db.t_info.aggregate([
-    {$group: {_id: "$age", poraDoc: {$push: "$$ROOT"} }}
-  ])
-  ```
-  $$ROOT is a reference to complete current document ,since the names field use $push operator to add poraDoc from each document to an array.
+
+```shell
+db.t_info.aggregate([
+  {$group: {_id: "$age", poraDoc: {$push: "$$ROOT"} }}
+])
+```
+
+$$ROOT is a reference to complete current document ,since the names field use $push operator to add poraDoc from each document to an array.
 
 Example: Group teachers by age and show all teachers documents per age group and count
-  ```shell
-  db.t_info.aggregate([
-    {$group: {_id: "$age", poraDoc: {$push: "$$ROOT"}, count: {$sum: 1} }}
-  ])
-  ```
-  
-  
-  Example: Give a count per age male teacher
 
-  ```shell
-  db.t_info.aggregate([
-    {$match: {gender: "Male"}},
-    {$group: {_id: "$age", count: {$sum: 1} }}
-  ])
-  ```
-  The value of $sum, for each document in a group, the value count is increment by 1 in a group document 
+```shell
+db.t_info.aggregate([
+  {$group: {_id: "$age", poraDoc: {$push: "$$ROOT"}, count: {$sum: 1} }}
+])
+```
 
+Example: Give a count per age male teacher
 
-  
-  Example: Give a count per age of female teacher and sort them in desc order
+```shell
+db.t_info.aggregate([
+  {$match: {gender: "Male"}},
+  {$group: {_id: "$age", count: {$sum: 1} }}
+])
+```
 
-  ```shell
-  db.t_info.aggregate([
-    {$match: {gender: "Female"}},
-    {$group: {_id: "$age", count: {$sum: 1}}},
-    {$sort: {count: -1}}
-  ])
-  ```
+The value of $sum, for each document in a group, the value count is increment by 1 in a group document
 
-    Example: Give a count per age of female teacher, sort them in desc order and find max number of demale teacher having same age and return that group
+Example: Give a count per age of female teacher and sort them in desc order
 
-  ```shell
-  db.t_info.aggregate([
-    {$match: {gender: "Female"}},
-    {$group: {_id: "$age", count: {$sum: 1}}},
-    {$sort: {count: -1}},
-    {$group: {_id: null, maxCount:{$max: count}}}
-  ])
-  ```
+```shell
+db.t_info.aggregate([
+  {$match: {gender: "Female"}},
+  {$group: {_id: "$age", count: {$sum: 1}}},
+  {$sort: {count: -1}}
+])
+```
+
+    Example: Give a count per age of female teacher, sort them in desc order and find max number of female teacher having same age and return that group
+
+```shell
+db.t_info.aggregate([
+  {$match: {gender: "Female"}},
+  {$group: {_id: "$age", count: {$sum: 1}}},
+  {$sort: {count: -1}},
+  {$group: {_id: null, maxCount:{$max: "$count"}}}
+])
+```
 
 ## $unwind operator is used to deconstruct an array field in a document and create separate output documents for each item in the array.
 
-      Example: Give a count per age of female teacher, sort them in desc order and find max number of demale teacher having same age and return that group
+    Example: Group teachers by age and show hobbies of a teacher within a group as an single array
 
-  ```shell
-  db.t_info.aggregate([
-
-  ])
-  ```
+```shell
+db.t_info.aggregate([
+  {$unwind: "$hobbies"},
+  {$group: {_id: "$age", hobbiesArray: {$addToSet: "$hobbies"}}},
+  {$sort: {_id: 1}}
+])
+```
