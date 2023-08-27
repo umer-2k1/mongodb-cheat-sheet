@@ -254,3 +254,64 @@ db.t_info.aggregate([
   }
 ])
 ```
+
+# lookup in Aggregation (pipeline operations)
+
+$lookup is an aggregation pipeline stage that allow you to perform a left outer join between two collections
+
+syntax:
+db.collection.aggregate( [
+{
+$lookup: {
+from: "",
+localField: "",
+foreignField: "",
+as: ""
+}
+}
+], options)
+
+```shell
+Customer Collection:
+{
+  "_id": 1,
+  "name": "John Doe"
+},
+
+{
+  "_id": 2,
+  "name": "Jane Smith"
+}
+Order Collection:
+{
+  "_id": 101,
+  "product": "Smartphone",
+  "customerid": 1
+}
+
+{
+  "_id": 102,
+  "product": "Laptop",
+  "customerid": 2
+}
+
+{
+  "_id": 103,
+  "product": "Tablet",
+  "customerid": 3  // This customer ID doesn't match any existing customer
+}
+```
+
+```shell
+db.customer.aggregate([
+  {
+    $lookup:{
+      from: "order",
+      localField: "_id",
+      foreignField: "customerid",
+      as: "customerOrders"
+
+    }
+  }
+])
+```
