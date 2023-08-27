@@ -281,6 +281,11 @@ Customer Collection:
 {
   "_id": 2,
   "name": "Jane Smith"
+},
+
+{
+  "_id": 3,
+  "name": "Jhon Emery"
 }
 Order Collection:
 {
@@ -294,11 +299,11 @@ Order Collection:
   "product": "Laptop",
   "customerid": 2
 }
-
+0
 {
   "_id": 103,
   "product": "Tablet",
-  "customerid": 3  // This customer ID doesn't match any existing customer
+  "customerid": 5
 }
 ```
 
